@@ -13,19 +13,19 @@ Release assets are unpacked, self-contained single-file executables.
 Linux, bash:
 
 ```bash
-repo=flcl42/rlp; dir="$HOME/.local/bin"; arch="$(uname -m)"; asset=rlp-linux-x64; case "$arch" in aarch64|arm64) asset=rlp-linux-arm64;; esac; mkdir -p "$dir"; curl -fsSL "https://github.com/$repo/releases/latest/download/$asset" -o "$dir/rlp"; chmod +x "$dir/rlp"; grep -qxF 'export PATH="$HOME/.local/bin:$PATH"' "$HOME/.bashrc" || echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.bashrc"
+repo=flcl42/rlp; arch="$(uname -m)"; asset=rlp-linux-x64; case "$arch" in aarch64|arm64) asset=rlp-linux-arm64;; esac; curl -fsSL "https://github.com/$repo/releases/latest/download/$asset" -o ./rlp; chmod +x ./rlp
 ```
 
 macOS, zsh:
 
 ```zsh
-repo=flcl42/rlp; dir="$HOME/.local/bin"; arch="$(uname -m)"; asset=rlp-macos-arm64; [ "$arch" = "x86_64" ] && asset=rlp-macos-x64; mkdir -p "$dir"; curl -fsSL "https://github.com/$repo/releases/latest/download/$asset" -o "$dir/rlp"; chmod +x "$dir/rlp"; grep -qxF 'export PATH="$HOME/.local/bin:$PATH"' "$HOME/.zshrc" || echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$HOME/.zshrc"
+repo=flcl42/rlp; arch="$(uname -m)"; asset=rlp-macos-arm64; [ "$arch" = "x86_64" ] && asset=rlp-macos-x64; curl -fsSL "https://github.com/$repo/releases/latest/download/$asset" -o ./rlp; chmod +x ./rlp
 ```
 
 Windows, PowerShell:
 
 ```powershell
-$repo='flcl42/rlp'; $dir='C:\Programs'; New-Item -ItemType Directory -Force $dir | Out-Null; Invoke-WebRequest "https://github.com/$repo/releases/latest/download/rlp-windows-x64.exe" -OutFile "$dir\rlp.exe"; $p=[Environment]::GetEnvironmentVariable('Path','User'); if (($p -split ';') -notcontains $dir) { [Environment]::SetEnvironmentVariable('Path', ((@($p -split ';') + $dir | Where-Object { $_ }) -join ';'), 'User'); $env:Path += ";$dir" }
+$repo='flcl42/rlp'; Invoke-WebRequest "https://github.com/$repo/releases/latest/download/rlp-windows-x64.exe" -OutFile ".\rlp.exe"
 ```
 
 ## Usage
@@ -76,11 +76,11 @@ length/prefix/total byte counts.
 
 ## Build
 
-On Windows, regular builds write the testable command to `C:\Programs\rlp.exe`:
+On Windows, regular builds write the testable command to the current directory:
 
 ```powershell
 dotnet build
-rlp 83636174
+.\rlp.exe 83636174
 ```
 
 To publish a local self-contained executable:
